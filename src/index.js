@@ -1,5 +1,6 @@
 import "sanitize.css";
 import "./style.css";
+import { addButton, addContent } from "./DOM";
 
 function Todo(title, description, dueDate, priority) {
   const getInfo = () => {
@@ -33,6 +34,9 @@ function Factory() {
   };
 }
 
+addButton.onclick = () => addContent();
+
+/* 
 Projects["inbox"].add(Todo("walk momo"));
 console.log(Projects["inbox"].getTodo(0).getInfo());
 
@@ -44,3 +48,4 @@ Object.assign(Projects, { newProject: Factory() });
 Projects["newProject"].add(Todo("go to moon"));
 console.log(Projects["newProject"].getTodo(0).getInfo());
 console.log(Projects["newProject"].getTodo(1)?.getInfo());
+ */
