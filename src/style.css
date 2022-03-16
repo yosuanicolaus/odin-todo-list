@@ -1,0 +1,19 @@
+html, body {
+  height: 100vh;
+}
+
+body {
+  display: grid;
+  grid-template-columns: 200px auto;
+  grid-template-rows: 50px auto;
+}
+
+header {
+  background-color: darkred;
+  color: white;
+  grid-column: span 2;
+}
+
+nav {
+  background-color: gainsboro;
+}
