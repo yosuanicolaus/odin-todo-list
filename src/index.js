@@ -1,7 +1,7 @@
 import "sanitize.css";
 import "./style.css";
 
-function Todo(title, description = "-", dueDate = "-", priority = "-") {
+function Todo(title, description, dueDate, priority) {
   const getInfo = () => {
     return { title, description, dueDate, priority };
   };
@@ -11,24 +11,36 @@ function Todo(title, description = "-", dueDate = "-", priority = "-") {
     dueDate = newDueDate;
     priority = newPriority;
   };
-  const edit = () => {
-    return `editing ${title}`;
-  };
-  const checkStatus = () => {
-    return `checking ${title}`;
-  };
   return {
     getInfo,
     setInfo,
-    edit,
-    checkStatus,
   };
 }
 
-let x = new Todo("walsk dog");
-console.log(x.getInfo());
-console.log(x.checkStatus());
+const Projects = { inbox: Factory() };
 
-x.setInfo("go to mars", "just for fun lollz");
-console.log(x.getInfo());
-console.log(x.checkStatus());
+function Factory() {
+  const projects = [];
+  const add = (todo) => {
+    projects.push(todo);
+  };
+  const getTodo = (index) => {
+    return projects[index];
+  };
+  return {
+    add,
+    getTodo,
+  };
+}
+
+Projects["inbox"].add(Todo("walk momo"));
+console.log(Projects["inbox"].getTodo(0).getInfo());
+
+Projects["inbox"].add(Todo("walk buddy"));
+console.log(Projects["inbox"].getTodo(1).getInfo());
+
+// create new project
+Object.assign(Projects, { newProject: Factory() });
+Projects["newProject"].add(Todo("go to moon"));
+console.log(Projects["newProject"].getTodo(0).getInfo());
+console.log(Projects["newProject"].getTodo(1)?.getInfo());
