@@ -1,4 +1,13 @@
-html, body {
+:root {
+  --c1: #e5d1ae;
+  --c2: #d4b281;
+  --c3: #bb5d58;
+  --c4: #8d4f5c;
+  --c5: #5a3a3d;
+}
+
+html,
+body {
   height: 100vh;
 }
 
@@ -9,11 +18,25 @@ body {
 }
 
 header {
-  background-color: darkred;
-  color: white;
   grid-column: span 2;
+  background-color: var(--c5);
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+header > button {
+  margin: 0 10px 0 auto;
+  background-color: var(--c3);
+  color: whitesmoke;
+  border-radius: 10px;
 }
 
 nav {
-  background-color: gainsboro;
+  background-color: var(--c1);
+}
+
+main {
+  background-color: var(--c2);
 }
