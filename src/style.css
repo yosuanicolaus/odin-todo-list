@@ -62,4 +62,22 @@ nav {
 
 main {
   background-color: var(--c2);
+  overflow: auto;
+  display: grid;
+  align-content: start;
+}
+
+#head {
+  background-color: var(--c3);
+  color: whitesmoke;
+  display: flex;
+  padding: 10px;
+  position: sticky;
+  top: 0;
+}
+
+#content {
+  display: grid;
+  padding: 10px;
+  gap: 10px;
 }

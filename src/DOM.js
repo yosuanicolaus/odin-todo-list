@@ -20,15 +20,17 @@
     </main>
 */
 
-export const addButton = document.getElementById("add");
+const addButton = document.getElementById("add");
 const user = document.getElementById("user");
 const tab = document.getElementsByClassName("tab");
 const projectTab = document.getElementById("projects");
 const content = document.getElementById("content");
 
-export function addContent(todo) {
+function addContent(todo) {
   console.log("adding content");
   const div = document.createElement("div");
   div.textContent = "todo content here";
   content.appendChild(div);
 }
+
+export { addButton, addContent };
