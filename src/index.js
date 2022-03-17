@@ -1,40 +1,9 @@
 import "sanitize.css";
 import "./style.css";
+import { Todo, Projects, Factory } from "./todo";
 import { addButton, addForm } from "./DOM";
 
-function Todo(title, description, dueDate, priority) {
-  const getInfo = () => {
-    return { title, description, dueDate, priority };
-  };
-  const setInfo = (newTitle, newDescription, newDueDate, newPriority) => {
-    title = newTitle;
-    description = newDescription;
-    dueDate = newDueDate;
-    priority = newPriority;
-  };
-  return {
-    getInfo,
-    setInfo,
-  };
-}
 
-const Projects = { inbox: Factory() };
-
-function Factory() {
-  const projects = [];
-  const add = (todo) => {
-    projects.push(todo);
-  };
-  const getTodo = (index) => {
-    return projects[index];
-  };
-  return {
-    add,
-    getTodo,
-  };
-}
-
-addButton.onclick = () => addForm();
 
 /* 
 Projects["inbox"].add(Todo("walk momo"));

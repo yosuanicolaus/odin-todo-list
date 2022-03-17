@@ -49,8 +49,15 @@ function createForm() {
     console.log("submitting data, deleting form");
   };
 
+  const formCancel = document.createElement("button");
+  formCancel.setAttribute("type", "button");
+  formCancel.textContent = "Cancel";
+  formCancel.onclick = () => {
+    console.log("cancelling, deleting form");
+  };
+
   formFlex.append(formDate, formProject, formPriority);
-  form.append(formTitle, formDescription, formFlex, formSubmit);
+  form.append(formTitle, formDescription, formFlex, formSubmit, formCancel);
 
   return form;
 }
@@ -60,4 +67,6 @@ function addForm(todo) {
   content.appendChild(createForm());
 }
 
-export { addButton, addForm };
+addButton.onclick = () => addForm();
+
+export { addForm };
