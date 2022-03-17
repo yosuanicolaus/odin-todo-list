@@ -20,6 +20,7 @@
     </main>
 */
 import { connect } from ".";
+import { Projects } from "./todo";
 
 const addButton = document.getElementById("add");
 const user = document.getElementById("user");
@@ -110,6 +111,10 @@ function submitForm(title, description, date, project, priority) {
 
 function deleteForm(form) {
   content.removeChild(form);
+}
+
+export function render() {
+  console.log("rendering...");
 }
 
 addButton.onclick = () => addForm();

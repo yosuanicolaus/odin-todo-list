@@ -1,19 +1,23 @@
 import "sanitize.css";
 import "./style.css";
 import { Todo, Projects, Factory } from "./todo";
-import { formData } from "./DOM";
+import { formData, render } from "./DOM";
 
 export function connect() {
+  addTodo();
+  render();
+}
+
+function addTodo() {
   if (Projects[formData.project] === undefined)
     Projects[formData.project] = Factory();
 
   Projects[formData.project].add(
     Todo(formData.title, formData.description, formData.date, formData.priority)
   );
-
-  console.log(Projects[formData.project].getTodo(0).getInfo());
 }
 
+// console.log(Projects[formData.project].getTodo(0).getInfo());
 /* 
 Projects["inbox"].add(Todo("walk momo"));
 console.log(Projects["inbox"].getTodo(0).getInfo());
