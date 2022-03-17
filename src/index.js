@@ -4,8 +4,14 @@ import { Todo, Projects, Factory } from "./todo";
 import { formData } from "./DOM";
 
 export function connect() {
-  console.log("connecting,,,");
-  console.log({ ...formData });
+  if (Projects[formData.project] === undefined)
+    Projects[formData.project] = Factory();
+
+  Projects[formData.project].add(
+    Todo(formData.title, formData.description, formData.date, formData.priority)
+  );
+
+  console.log(Projects[formData.project].getTodo(0).getInfo());
 }
 
 /* 
