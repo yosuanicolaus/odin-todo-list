@@ -1,9 +1,12 @@
 import "sanitize.css";
 import "./style.css";
 import { Todo, Projects, Factory } from "./todo";
-import { addButton, addForm } from "./DOM";
+import { formData } from "./DOM";
 
-
+export function connect() {
+  console.log("connecting,,,");
+  console.log({ ...formData });
+}
 
 /* 
 Projects["inbox"].add(Todo("walk momo"));

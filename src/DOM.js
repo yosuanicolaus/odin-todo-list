@@ -19,6 +19,7 @@
       <div id="content"></div>
     </main>
 */
+import { connect } from ".";
 
 const addButton = document.getElementById("add");
 const user = document.getElementById("user");
@@ -96,21 +97,21 @@ function createTodo(title, description = "", dueDate, project, priority) {
   return Todo;
 }
 
-function addForm(todo) {
-  console.log("adding content");
+function addForm() {
   content.appendChild(createForm());
 }
 
 function submitForm(title, description, date, project, priority) {
-  console.log("submitting form...");
-  content.appendChild(createTodo(title, description, date, project, priority));
+  // content.appendChild(createTodo(title, description, date, project, priority));
+  // send data to index.js through formData
+  Object.assign(formData, { title, description, date, project, priority });
+  connect();
 }
 
 function deleteForm(form) {
-  console.log("deleting form...");
   content.removeChild(form);
 }
 
 addButton.onclick = () => addForm();
 
-export { addForm };
+export const formData = {};
