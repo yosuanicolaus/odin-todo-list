@@ -30,7 +30,7 @@ function createForm() {
   const form = document.createElement("form");
   const formTitle = document.createElement("input");
   formTitle.setAttribute("type", "text");
-  formTitle.placeholder = "Walk my dog at 5pm";
+  formTitle.placeholder = "E.g. Walk my dog at 5pm";
 
   const formDescription = document.createElement("input");
   formDescription.setAttribute("type", "text");
@@ -60,6 +60,24 @@ function createForm() {
   form.append(formTitle, formDescription, formFlex, formSubmit, formCancel);
 
   return form;
+}
+
+function createTodo(title, description = "", dueDate, project, priority) {
+  const Todo = document.createElement("div");
+
+  const check = document.createElement("input");
+  check.setAttribute("type", "radio");
+
+  const taskTitle = document.createElement("div");
+  taskTitle.textContent = title;
+  const taskDescription = document.createElement("div");
+  taskDescription.textContent = description;
+  const taskDate = document.createElement("div");
+  taskDate.textContent = dueDate;
+  const taskProject = document.createElement("div");
+  taskProject.textContent = project;
+  const taskPriority = document.createElement("div");
+  taskPriority.textContent = priority;
 }
 
 function addForm(todo) {
