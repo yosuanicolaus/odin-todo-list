@@ -41,7 +41,14 @@ function createForm() {
   const formFlex = document.createElement("div");
   const formDate = document.createElement("input");
   formDate.setAttribute("type", "date");
+
   const formProject = document.createElement("select");
+  for (const key in Projects) {
+    const optionProject = document.createElement("option");
+    optionProject.textContent = key;
+    formProject.append(optionProject);
+  }
+
   const formPriority = document.createElement("select");
 
   const formSubmit = document.createElement("button");
@@ -113,8 +120,20 @@ function deleteForm(form) {
   content.removeChild(form);
 }
 
-export function render() {
-  console.log("rendering...");
+export function render(dataProject) {
+  content.innerHTML = ""; // effective clean, but there's some error
+  const project = dataProject;
+  Projects[project].getTodo().forEach((todo) => {
+    console.log(todo);
+    const title = todo.getInfo().title;
+    const description = todo.getInfo().description;
+    const dueDate = todo.getInfo().dueDate;
+    const priority = todo.getInfo().priority;
+
+    content.appendChild(
+      createTodo(title, description, dueDate, project, priority)
+    );
+  });
 }
 
 addButton.onclick = () => addForm();

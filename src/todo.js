@@ -22,7 +22,7 @@ function Factory() {
     projects.push(todo);
   };
   const getTodo = (index) => {
-    return projects[index];
+    return index === undefined ? projects : projects[index];
   };
   return {
     add,

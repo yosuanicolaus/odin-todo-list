@@ -5,7 +5,7 @@ import { formData, render } from "./DOM";
 
 export function connect() {
   addTodo();
-  render();
+  render(formData.project);
 }
 
 function addTodo() {
@@ -17,7 +17,6 @@ function addTodo() {
   );
 }
 
-// console.log(Projects[formData.project].getTodo(0).getInfo());
 /* 
 Projects["inbox"].add(Todo("walk momo"));
 console.log(Projects["inbox"].getTodo(0).getInfo());
