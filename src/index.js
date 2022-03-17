@@ -1,6 +1,6 @@
 import "sanitize.css";
 import "./style.css";
-import { addButton, addContent } from "./DOM";
+import { addButton, addForm } from "./DOM";
 
 function Todo(title, description, dueDate, priority) {
   const getInfo = () => {
@@ -34,7 +34,7 @@ function Factory() {
   };
 }
 
-addButton.onclick = () => addContent();
+addButton.onclick = () => addForm();
 
 /* 
 Projects["inbox"].add(Todo("walk momo"));

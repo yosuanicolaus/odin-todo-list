@@ -26,11 +26,38 @@ const tab = document.getElementsByClassName("tab");
 const projectTab = document.getElementById("projects");
 const content = document.getElementById("content");
 
-function addContent(todo) {
-  console.log("adding content");
-  const div = document.createElement("div");
-  div.textContent = "todo content here";
-  content.appendChild(div);
+function createForm() {
+  const form = document.createElement("form");
+  const formTitle = document.createElement("input");
+  formTitle.setAttribute("type", "text");
+  formTitle.placeholder = "Walk my dog at 5pm";
+
+  const formDescription = document.createElement("input");
+  formDescription.setAttribute("type", "text");
+  formDescription.placeholder = "Description...";
+
+  const formFlex = document.createElement("div");
+  const formDate = document.createElement("input");
+  formDate.setAttribute("type", "date");
+  const formProject = document.createElement("select");
+  const formPriority = document.createElement("select");
+
+  const formSubmit = document.createElement("button");
+  formSubmit.setAttribute("type", "button");
+  formSubmit.textContent = "Add task";
+  formSubmit.onclick = () => {
+    console.log("submitting data, deleting form");
+  };
+
+  formFlex.append(formDate, formProject, formPriority);
+  form.append(formTitle, formDescription, formFlex, formSubmit);
+
+  return form;
 }
 
-export { addButton, addContent };
+function addForm(todo) {
+  console.log("adding content");
+  content.appendChild(createForm());
+}
+
+export { addButton, addForm };
