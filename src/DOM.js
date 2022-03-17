@@ -46,15 +46,20 @@ function createForm() {
   formSubmit.setAttribute("type", "button");
   formSubmit.textContent = "Add task";
   formSubmit.onclick = () => {
-    console.log("submitting data, deleting form");
+    submitForm(
+      formTitle.value,
+      formDescription.value,
+      formDate.value,
+      formProject.value,
+      formPriority.value
+    );
+    deleteForm(form);
   };
 
   const formCancel = document.createElement("button");
   formCancel.setAttribute("type", "button");
   formCancel.textContent = "Cancel";
-  formCancel.onclick = () => {
-    console.log("cancelling, deleting form");
-  };
+  formCancel.onclick = () => deleteForm(form);
 
   formFlex.append(formDate, formProject, formPriority);
   form.append(formTitle, formDescription, formFlex, formSubmit, formCancel);
@@ -78,11 +83,32 @@ function createTodo(title, description = "", dueDate, project, priority) {
   taskProject.textContent = project;
   const taskPriority = document.createElement("div");
   taskPriority.textContent = priority;
+
+  Todo.append(
+    check,
+    taskTitle,
+    taskDescription,
+    taskDate,
+    taskProject,
+    taskPriority
+  );
+
+  return Todo;
 }
 
 function addForm(todo) {
   console.log("adding content");
   content.appendChild(createForm());
+}
+
+function submitForm(title, description, date, project, priority) {
+  console.log("submitting form...");
+  content.appendChild(createTodo(title, description, date, project, priority));
+}
+
+function deleteForm(form) {
+  console.log("deleting form...");
+  content.removeChild(form);
 }
 
 addButton.onclick = () => addForm();
