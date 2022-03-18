@@ -58,6 +58,19 @@ nav {
 #projects {
   margin-top: 10px;
   font-weight: bolder;
+  display: flex;
+}
+
+#newproject {
+  font-family: monospace;
+  font-size: 1.1em;
+  background-color: rgba(255, 255, 255, 0.116);
+  margin-left: auto;
+  border-radius: 8px;
+}
+
+#newproject:hover {
+  background-color: white;
 }
 
 main {
