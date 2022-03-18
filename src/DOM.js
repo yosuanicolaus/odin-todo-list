@@ -1,34 +1,56 @@
-/* 
-    <header>
-      <h1>ToDo</h1>
-      <button id="add">Add Todo</button>
-      <span id="user">John Doe</span>
-    </header>
-    <nav>
-      <div class="tab">Inbox</div>
-      <div class="tab">Today</div>
-      <div class="tab">This Week</div>
-      <div class="tab">Labels</div>
-      <div id="projects">Projects</div>
-    </nav>
-    <main>
-      <head>
-        <strong>Today</strong>
-        <span>Wed 16 Mar</span>
-      </head>
-      <div id="content"></div>
-    </main>
-*/
 import { connect } from ".";
-import { Projects } from "./todo";
+import { Factory, Projects } from "./todo";
 
 const addButton = document.getElementById("add");
 const user = document.getElementById("user");
 const tab = document.getElementsByClassName("tab");
+const newproject = document.getElementById("newproject");
 const projectTab = document.getElementById("projects");
 const content = document.getElementById("content");
 
 let formExist = false;
+
+newproject.onclick = () => {
+  projectTab.appendChild(createProjectForm());
+};
+
+function addNewProject(projectName) {
+  Projects[projectName] = Factory();
+}
+
+function createProjectForm() {
+  const form = document.createElement("form");
+  const input = document.createElement("input");
+  input.setAttribute("type", "text");
+  input.placeholder = "Really Cool Project";
+  const submit = document.createElement("button");
+  submit.textContent = "add project";
+  submit.type = "button";
+  submit.onclick = () => {
+    addNewProject(input.value);
+    renderTab();
+  };
+  const cancel = document.createElement("button");
+  cancel.textContent = "cancel";
+  cancel.type = "button";
+  cancel.onclick = () => projectTab.removeChild(form);
+
+  const buttons = document.createElement("div");
+  buttons.append(submit, cancel);
+
+  form.append(input, buttons);
+  form.style.width = "160px";
+  return form;
+}
+
+function renderTab() {
+  projectTab.innerHTML = "";
+  for (const key in Projects) {
+    const tab = document.createElement("div");
+    tab.textContent = key;
+    projectTab.appendChild(tab);
+  }
+}
 
 function createForm() {
   const form = document.createElement("form");
@@ -152,6 +174,8 @@ addButton.onclick = () => {
 };
 
 export const formData = {};
+
+renderTab();
 
 //sample todo
 submitForm(
