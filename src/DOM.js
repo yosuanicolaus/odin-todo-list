@@ -39,8 +39,10 @@ function createForm() {
   formDescription.placeholder = "Description...";
 
   const formFlex = document.createElement("div");
+  formFlex.id = "formFlex";
   const formDate = document.createElement("input");
   formDate.setAttribute("type", "date");
+  formDate.valueAsDate = new Date();
 
   const formProject = document.createElement("select");
   for (const key in Projects) {
@@ -50,8 +52,15 @@ function createForm() {
   }
 
   const formPriority = document.createElement("select");
+  for (let i = 1; i <= 4; i++) {
+    const optionPriority = document.createElement("option");
+    optionPriority.textContent = "p" + i;
+    formPriority.append(optionPriority);
+  }
 
+  const formButtons = document.createElement("div");
   const formSubmit = document.createElement("button");
+  formSubmit.id = "formSubmit";
   formSubmit.setAttribute("type", "button");
   formSubmit.textContent = "Add task";
   formSubmit.onclick = () => {
@@ -71,7 +80,8 @@ function createForm() {
   formCancel.onclick = () => deleteForm(form);
 
   formFlex.append(formDate, formProject, formPriority);
-  form.append(formTitle, formDescription, formFlex, formSubmit, formCancel);
+  formButtons.append(formSubmit, formCancel);
+  form.append(formTitle, formDescription, formFlex, formButtons);
 
   return form;
 }

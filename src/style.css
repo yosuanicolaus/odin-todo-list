@@ -82,6 +82,21 @@ main {
   gap: 10px;
 }
 
+form {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 100%;
+  border: 1px solid white;
+  background-color: rgba(255, 255, 255, 0.212);
+  padding: 10px;
+}
+
+#formSubmit {
+  background-color: var(--c3);
+  color: whitesmoke;
+  margin-right: 10px;
+}
+
 #todo {
   background-color: rgba(255, 255, 255, 0.521);
   display: grid;
