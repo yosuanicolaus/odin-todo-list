@@ -28,6 +28,8 @@ const tab = document.getElementsByClassName("tab");
 const projectTab = document.getElementById("projects");
 const content = document.getElementById("content");
 
+let formExist = false;
+
 function createForm() {
   const form = document.createElement("form");
   const formTitle = document.createElement("input");
@@ -71,13 +73,16 @@ function createForm() {
       formProject.value,
       formPriority.value
     );
-    deleteForm(form);
+    formExist = false;
   };
 
   const formCancel = document.createElement("button");
   formCancel.setAttribute("type", "button");
   formCancel.textContent = "Cancel";
-  formCancel.onclick = () => deleteForm(form);
+  formCancel.onclick = () => {
+    content.removeChild(form);
+    formExist = false;
+  };
 
   formFlex.append(formDate, formProject, formPriority);
   formButtons.append(formSubmit, formCancel);
@@ -86,7 +91,7 @@ function createForm() {
   return form;
 }
 
-function createTodo(title, description = "", dueDate, project, priority) {
+function createTodo(title, description, dueDate, project, priority) {
   const Todo = document.createElement("div");
   Todo.id = "todo";
 
@@ -124,12 +129,8 @@ function submitForm(title, description, date, project, priority) {
   connect();
 }
 
-function deleteForm(form) {
-  content.removeChild(form);
-}
-
 export function render(dataProject) {
-  content.innerHTML = ""; // effective clean, but there's some error
+  content.innerHTML = "";
   const project = dataProject;
   Projects[project].getTodo().forEach((todo) => {
     console.log(todo);
@@ -144,7 +145,11 @@ export function render(dataProject) {
   });
 }
 
-addButton.onclick = () => addForm();
+addButton.onclick = () => {
+  if (formExist) return;
+  addForm();
+  formExist = true;
+};
 
 export const formData = {};
 
