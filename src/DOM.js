@@ -1,5 +1,5 @@
-import { connect } from ".";
-import { Factory, Projects } from "./todo";
+import { addTodo, addProject } from ".";
+import { Projects } from "./todo";
 
 const addButton = document.getElementById("add");
 const user = document.getElementById("user");
@@ -9,14 +9,7 @@ const projectTab = document.getElementById("projects");
 const content = document.getElementById("content");
 
 let formExist = false;
-
-newproject.onclick = () => {
-  projectTab.appendChild(createProjectForm());
-};
-
-function addNewProject(projectName) {
-  Projects[projectName] = Factory();
-}
+let projectFormExist = false;
 
 function createProjectForm() {
   const form = document.createElement("form");
@@ -27,13 +20,18 @@ function createProjectForm() {
   submit.textContent = "add project";
   submit.type = "button";
   submit.onclick = () => {
-    addNewProject(input.value);
+    // addNewProject(input.value);
+    addProject(input.value);
     renderTab();
+    projectFormExist = false;
   };
   const cancel = document.createElement("button");
   cancel.textContent = "cancel";
   cancel.type = "button";
-  cancel.onclick = () => projectTab.removeChild(form);
+  cancel.onclick = () => {
+    projectTab.removeChild(form);
+    projectFormExist = false;
+  };
 
   const buttons = document.createElement("div");
   buttons.append(submit, cancel);
@@ -144,11 +142,17 @@ function addForm() {
   content.appendChild(createForm());
 }
 
+function addProjectForm() {
+  projectTab.appendChild(createProjectForm());
+}
+
 function submitForm(title, description, date, project, priority) {
   // content.appendChild(createTodo(title, description, date, project, priority));
   // send data to index.js through formData
   Object.assign(formData, { title, description, date, project, priority });
-  connect();
+  // connect();
+  addTodo();
+  render(formData.project);
 }
 
 export function render(dataProject) {
@@ -171,6 +175,12 @@ addButton.onclick = () => {
   if (formExist) return;
   addForm();
   formExist = true;
+};
+
+newproject.onclick = () => {
+  if (projectFormExist) return;
+  addProjectForm();
+  projectFormExist = true;
 };
 
 export const formData = {};
