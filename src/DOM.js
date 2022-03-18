@@ -78,6 +78,7 @@ function createForm() {
 
 function createTodo(title, description = "", dueDate, project, priority) {
   const Todo = document.createElement("div");
+  Todo.id = "todo";
 
   const check = document.createElement("input");
   check.setAttribute("type", "radio");
@@ -86,6 +87,9 @@ function createTodo(title, description = "", dueDate, project, priority) {
   taskTitle.textContent = title;
   const taskDescription = document.createElement("div");
   taskDescription.textContent = description;
+
+  const todoFlex = document.createElement("div");
+  todoFlex.id = "todoFlex";
   const taskDate = document.createElement("div");
   taskDate.textContent = dueDate;
   const taskProject = document.createElement("div");
@@ -93,14 +97,8 @@ function createTodo(title, description = "", dueDate, project, priority) {
   const taskPriority = document.createElement("div");
   taskPriority.textContent = priority;
 
-  Todo.append(
-    check,
-    taskTitle,
-    taskDescription,
-    taskDate,
-    taskProject,
-    taskPriority
-  );
+  todoFlex.append(taskDate, taskProject, taskPriority);
+  Todo.append(check, taskTitle, taskDescription, todoFlex);
 
   return Todo;
 }
@@ -139,3 +137,12 @@ export function render(dataProject) {
 addButton.onclick = () => addForm();
 
 export const formData = {};
+
+//sample todo
+submitForm(
+  "Walk my dog at 5pm",
+  `Dogs are truly man's best friend. We live in a socitey...`,
+  "2022-03-18",
+  "inbox",
+  "p1"
+);
