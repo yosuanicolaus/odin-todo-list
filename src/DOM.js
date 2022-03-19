@@ -11,18 +11,27 @@ const content = document.getElementById("content");
 let formExist = false;
 let projectFormExist = false;
 
+function createItem(element, id, type = element) {
+  const item = document.createElement(element);
+  item.type = type;
+  item.id = id;
+  return item;
+}
+
 function createTextInput(placeholder, id) {
-  const textInput = document.createElement("input");
-  textInput.type = "text";
-  textInput.id = id;
+  const textInput = createItem("input", id, "text");
   textInput.placeholder = placeholder;
   return textInput;
 }
 
+function createDateInput(date, id) {
+  const dateInput = createItem("input", id, "date");
+  dateInput.valueAsDate = date;
+  return dateInput;
+}
+
 function createButton(textContent, id) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.id = id;
+  const button = createItem("button", id);
   button.textContent = textContent;
   return button;
 }
@@ -36,6 +45,13 @@ function createSelect(options, id) {
     select.append(option);
   }
   return select;
+}
+
+function createText(textContent, id) {
+  const text = document.createElement("div");
+  text.id = id;
+  text.textContent = textContent;
+  return text;
 }
 
 function createGroup(items, id, element = "div") {
@@ -78,17 +94,10 @@ function renderTab() {
 function createForm() {
   const title = createTextInput("E.g. Walk my dog at 5pm");
   const description = createTextInput("Description...");
-  const date = document.createElement("input");
-  date.setAttribute("type", "date");
-  date.valueAsDate = new Date();
-
+  const date = createDateInput(new Date());
   const project = createSelect(Object.keys(Projects));
   const priority = createSelect(["p1", "p2", "p3", "p4"]);
 
-  // const formSubmit = document.createElement("button");
-  // formSubmit.id = "formSubmit";
-  // formSubmit.setAttribute("type", "button");
-  // formSubmit.textContent = "Add task";
   const formSubmit = createButton("Add task", "formSubmit");
   formSubmit.onclick = () => {
     submitForm(
@@ -100,19 +109,12 @@ function createForm() {
     );
     formExist = false;
   };
-
-  // const formCancel = document.createElement("button");
-  // formCancel.setAttribute("type", "button");
-  // formCancel.textContent = "Cancel";
   const formCancel = createButton("Cancel");
   formCancel.onclick = () => {
     content.removeChild(form);
     formExist = false;
   };
 
-  // const formFlex = document.createElement("div");
-  // formFlex.id = "formFlex";
-  // formFlex.append(date, project, priority);
   const formFlex = createGroup([date, project, priority], "formFlex");
   const buttons = createGroup([formSubmit, formCancel]);
   const form = createGroup(
@@ -124,29 +126,21 @@ function createForm() {
 }
 
 function createTodo(title, description, dueDate, project, priority) {
-  const Todo = document.createElement("div");
-  Todo.id = "todo";
+  const check = createItem("input", "", "radio");
+  const taskTitle = createText(title);
+  const taskDescription = createText(description);
+  const taskDate = createText(dueDate);
+  const taskProject = createText(project);
+  const taskPriority = createText(priority);
 
-  const check = document.createElement("input");
-  check.setAttribute("type", "radio");
-
-  const taskTitle = document.createElement("div");
-  taskTitle.textContent = title;
-  const taskDescription = document.createElement("div");
-  taskDescription.textContent = description;
-
-  const todoFlex = document.createElement("div");
-  todoFlex.id = "todoFlex";
-  const taskDate = document.createElement("div");
-  taskDate.textContent = dueDate;
-  const taskProject = document.createElement("div");
-  taskProject.textContent = project;
-  const taskPriority = document.createElement("div");
-  taskPriority.textContent = priority;
-
-  todoFlex.append(taskDate, taskProject, taskPriority);
-  Todo.append(check, taskTitle, taskDescription, todoFlex);
-
+  const todoFlex = createGroup(
+    [taskDate, taskProject, taskPriority],
+    "todoFlex"
+  );
+  const Todo = createGroup(
+    [check, taskTitle, taskDescription, todoFlex],
+    "todo"
+  );
   return Todo;
 }
 
@@ -159,10 +153,8 @@ function addProjectForm() {
 }
 
 function submitForm(title, description, date, project, priority) {
-  // content.appendChild(createTodo(title, description, date, project, priority));
   // send data to index.js through formData
   Object.assign(formData, { title, description, date, project, priority });
-  // connect();
   addTodo();
   render(formData.project);
 }
