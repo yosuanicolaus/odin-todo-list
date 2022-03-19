@@ -73,6 +73,10 @@ nav {
   background-color: white;
 }
 
+#projectform {
+  width: 160px;
+}
+
 main {
   background-color: var(--c2);
   overflow: auto;

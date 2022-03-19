@@ -11,33 +11,58 @@ const content = document.getElementById("content");
 let formExist = false;
 let projectFormExist = false;
 
+function createTextInput(placeholder, id) {
+  const textInput = document.createElement("input");
+  textInput.type = "text";
+  textInput.id = id;
+  textInput.placeholder = placeholder;
+  return textInput;
+}
+
+function createButton(textContent, id) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.id = id;
+  button.textContent = textContent;
+  return button;
+}
+
+function createSelect(options, id) {
+  const select = document.createElement("select");
+  select.id = id;
+  for (let i = 0; i < options.length; i++) {
+    const option = document.createElement("option");
+    option.textContent = options[i];
+    select.append(option);
+  }
+  return select;
+}
+
+function createGroup(items, id, element = "div") {
+  const group = document.createElement(element);
+  group.id = id;
+  for (let i = 0; i < items.length; i++) {
+    group.append(items[i]);
+  }
+  return group;
+}
+
 function createProjectForm() {
-  const form = document.createElement("form");
-  const input = document.createElement("input");
-  input.setAttribute("type", "text");
-  input.placeholder = "Really Cool Project";
-  const submit = document.createElement("button");
-  submit.textContent = "add project";
-  submit.type = "button";
+  const input = createTextInput("Really Cool Project");
+  const submit = createButton("add project");
   submit.onclick = () => {
-    // addNewProject(input.value);
     addProject(input.value);
     renderTab();
     projectFormExist = false;
   };
-  const cancel = document.createElement("button");
-  cancel.textContent = "cancel";
-  cancel.type = "button";
+  const cancel = createButton("cancel");
   cancel.onclick = () => {
     projectTab.removeChild(form);
     projectFormExist = false;
   };
 
-  const buttons = document.createElement("div");
-  buttons.append(submit, cancel);
-
-  form.append(input, buttons);
-  form.style.width = "160px";
+  const buttons = createGroup([submit, cancel]);
+  const form = createGroup([input, buttons], "projectform", "form");
   return form;
 }
 
@@ -51,63 +76,50 @@ function renderTab() {
 }
 
 function createForm() {
-  const form = document.createElement("form");
-  const formTitle = document.createElement("input");
-  formTitle.setAttribute("type", "text");
-  formTitle.placeholder = "E.g. Walk my dog at 5pm";
+  const title = createTextInput("E.g. Walk my dog at 5pm");
+  const description = createTextInput("Description...");
+  const date = document.createElement("input");
+  date.setAttribute("type", "date");
+  date.valueAsDate = new Date();
 
-  const formDescription = document.createElement("input");
-  formDescription.setAttribute("type", "text");
-  formDescription.placeholder = "Description...";
+  const project = createSelect(Object.keys(Projects));
+  const priority = createSelect(["p1", "p2", "p3", "p4"]);
 
-  const formFlex = document.createElement("div");
-  formFlex.id = "formFlex";
-  const formDate = document.createElement("input");
-  formDate.setAttribute("type", "date");
-  formDate.valueAsDate = new Date();
-
-  const formProject = document.createElement("select");
-  for (const key in Projects) {
-    const optionProject = document.createElement("option");
-    optionProject.textContent = key;
-    formProject.append(optionProject);
-  }
-
-  const formPriority = document.createElement("select");
-  for (let i = 1; i <= 4; i++) {
-    const optionPriority = document.createElement("option");
-    optionPriority.textContent = "p" + i;
-    formPriority.append(optionPriority);
-  }
-
-  const formButtons = document.createElement("div");
-  const formSubmit = document.createElement("button");
-  formSubmit.id = "formSubmit";
-  formSubmit.setAttribute("type", "button");
-  formSubmit.textContent = "Add task";
+  // const formSubmit = document.createElement("button");
+  // formSubmit.id = "formSubmit";
+  // formSubmit.setAttribute("type", "button");
+  // formSubmit.textContent = "Add task";
+  const formSubmit = createButton("Add task", "formSubmit");
   formSubmit.onclick = () => {
     submitForm(
-      formTitle.value,
-      formDescription.value,
-      formDate.value,
-      formProject.value,
-      formPriority.value
+      title.value,
+      description.value,
+      date.value,
+      project.value,
+      priority.value
     );
     formExist = false;
   };
 
-  const formCancel = document.createElement("button");
-  formCancel.setAttribute("type", "button");
-  formCancel.textContent = "Cancel";
+  // const formCancel = document.createElement("button");
+  // formCancel.setAttribute("type", "button");
+  // formCancel.textContent = "Cancel";
+  const formCancel = createButton("Cancel");
   formCancel.onclick = () => {
     content.removeChild(form);
     formExist = false;
   };
 
-  formFlex.append(formDate, formProject, formPriority);
-  formButtons.append(formSubmit, formCancel);
-  form.append(formTitle, formDescription, formFlex, formButtons);
-
+  // const formFlex = document.createElement("div");
+  // formFlex.id = "formFlex";
+  // formFlex.append(date, project, priority);
+  const formFlex = createGroup([date, project, priority], "formFlex");
+  const buttons = createGroup([formSubmit, formCancel]);
+  const form = createGroup(
+    [title, description, formFlex, buttons],
+    undefined,
+    "form"
+  );
   return form;
 }
 
