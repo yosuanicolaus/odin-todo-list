@@ -15,11 +15,13 @@ function Todo(title, description, dueDate, priority) {
 }
 
 const Projects = { inbox: Factory() };
+const Library = [];
 
 function Factory() {
   const projects = [];
   const add = (todo) => {
     projects.push(todo);
+    Library.push(todo);
   };
   const getTodo = (index) => {
     return index === undefined ? projects : projects[index];
@@ -30,4 +32,4 @@ function Factory() {
   };
 }
 
-export { Todo, Projects, Factory };
+export { Todo, Projects, Factory, Library };

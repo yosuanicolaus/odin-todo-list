@@ -1,5 +1,14 @@
 import { addTodo, addProject } from ".";
 import { Projects } from "./todo";
+import {
+  createItem,
+  createButton,
+  createDateInput,
+  createGroup,
+  createSelect,
+  createText,
+  createTextInput,
+} from "./create";
 
 const addButton = document.getElementById("add");
 const user = document.getElementById("user");
@@ -10,58 +19,7 @@ const content = document.getElementById("content");
 
 let formExist = false;
 let projectFormExist = false;
-
-function createItem(element, id, type = element) {
-  const item = document.createElement(element);
-  item.type = type;
-  item.id = id;
-  return item;
-}
-
-function createTextInput(placeholder, id) {
-  const textInput = createItem("input", id, "text");
-  textInput.placeholder = placeholder;
-  return textInput;
-}
-
-function createDateInput(date, id) {
-  const dateInput = createItem("input", id, "date");
-  dateInput.valueAsDate = date;
-  return dateInput;
-}
-
-function createButton(textContent, id) {
-  const button = createItem("button", id);
-  button.textContent = textContent;
-  return button;
-}
-
-function createSelect(options, id) {
-  const select = document.createElement("select");
-  select.id = id;
-  for (let i = 0; i < options.length; i++) {
-    const option = document.createElement("option");
-    option.textContent = options[i];
-    select.append(option);
-  }
-  return select;
-}
-
-function createText(textContent, id) {
-  const text = document.createElement("div");
-  text.id = id;
-  text.textContent = textContent;
-  return text;
-}
-
-function createGroup(items, id, element = "div") {
-  const group = document.createElement(element);
-  group.id = id;
-  for (let i = 0; i < items.length; i++) {
-    group.append(items[i]);
-  }
-  return group;
-}
+let lastProject = "inbox";
 
 function createProjectForm() {
   const input = createTextInput("Really Cool Project");
@@ -85,8 +43,7 @@ function createProjectForm() {
 function renderTab() {
   projectTab.innerHTML = "";
   for (const key in Projects) {
-    const tab = document.createElement("div");
-    tab.textContent = key;
+    const tab = createText(key);
     projectTab.appendChild(tab);
   }
 }
@@ -119,7 +76,7 @@ function createForm() {
   const buttons = createGroup([formSubmit, formCancel]);
   const form = createGroup(
     [title, description, formFlex, buttons],
-    undefined,
+    "todoform",
     "form"
   );
   return form;
@@ -156,14 +113,13 @@ function submitForm(title, description, date, project, priority) {
   // send data to index.js through formData
   Object.assign(formData, { title, description, date, project, priority });
   addTodo();
-  render(formData.project);
+  render();
 }
 
-export function render(dataProject) {
+function render(dataProject = lastProject) {
   content.innerHTML = "";
   const project = dataProject;
   Projects[project].getTodo().forEach((todo) => {
-    console.log(todo);
     const title = todo.getInfo().title;
     const description = todo.getInfo().description;
     const dueDate = todo.getInfo().dueDate;
@@ -174,6 +130,8 @@ export function render(dataProject) {
     );
   });
 }
+
+function renderByDate() {}
 
 addButton.onclick = () => {
   if (formExist) return;
