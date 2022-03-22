@@ -1,5 +1,5 @@
 import { addTodo, addProject } from ".";
-import { Projects } from "./todo";
+import { Library, Projects } from "./todo";
 import {
   createItem,
   createButton,
@@ -17,8 +17,6 @@ const newproject = document.getElementById("newproject");
 const projectTab = document.getElementById("projects");
 const content = document.getElementById("content");
 
-let formExist = false;
-let projectFormExist = false;
 let lastProject = "inbox";
 
 function createProjectForm() {
@@ -27,12 +25,10 @@ function createProjectForm() {
   submit.onclick = () => {
     addProject(input.value);
     renderTab();
-    projectFormExist = false;
   };
   const cancel = createButton("cancel");
   cancel.onclick = () => {
     projectTab.removeChild(form);
-    projectFormExist = false;
   };
 
   const buttons = createGroup([submit, cancel]);
@@ -64,13 +60,9 @@ function createForm() {
       project.value,
       priority.value
     );
-    formExist = false;
   };
   const formCancel = createButton("Cancel");
-  formCancel.onclick = () => {
-    content.removeChild(form);
-    formExist = false;
-  };
+  formCancel.onclick = () => content.removeChild(form);
 
   const formFlex = createGroup([date, project, priority], "formFlex");
   const buttons = createGroup([formSubmit, formCancel]);
@@ -99,6 +91,16 @@ function createTodo(title, description, dueDate, project, priority) {
     "todo"
   );
   return Todo;
+}
+
+function todoFormExist() {
+  const form = document.getElementById("todoform");
+  return form !== null;
+}
+
+function projectFormExist() {
+  const form = document.getElementById("projectform");
+  return form !== null;
 }
 
 function addForm() {
@@ -134,15 +136,13 @@ function render(dataProject = lastProject) {
 function renderByDate() {}
 
 addButton.onclick = () => {
-  if (formExist) return;
+  if (todoFormExist()) return;
   addForm();
-  formExist = true;
 };
 
 newproject.onclick = () => {
-  if (projectFormExist) return;
+  if (projectFormExist()) return;
   addProjectForm();
-  projectFormExist = true;
 };
 
 export const formData = {};
@@ -157,3 +157,8 @@ submitForm(
   "inbox",
   "p1"
 );
+
+//key listener for testing
+document.addEventListener("keydown", () => {
+  console.log(Library);
+});
