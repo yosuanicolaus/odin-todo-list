@@ -1,6 +1,8 @@
 import { Projects, Library } from "./todo";
 import { createTodo, content } from "./DOM";
 
+const head = document.getElementById("head");
+
 export function render(renderBy = "all", key) {
   content.innerHTML = "";
   switch (renderBy) {
@@ -19,6 +21,7 @@ function renderByProject(project = "inbox") {
   Projects[project].getTodo().forEach((todo) => {
     renderItem(todo, project);
   });
+  head.textContent = project;
 }
 
 function renderByDate(type = "today") {
@@ -35,6 +38,7 @@ function renderAll() {
   for (const key in Projects) {
     renderByProject(key);
   }
+  head.textContent = "All";
 }
 
 function renderItem(todo, project) {
@@ -50,12 +54,14 @@ function renderItem(todo, project) {
 
 function renderToday() {
   let date = new Date();
+  head.textContent = "Today, " + date.toLocaleString().slice(0, 10);
   date = date.toISOString().split("T")[0];
 
   renderDay(date);
 }
 
 function renderWeek() {
+  head.textContent = "This Week";
   const Dates = Array(7);
   for (let i = 0; i < Dates.length; i++) {
     Dates[i] = new Date();

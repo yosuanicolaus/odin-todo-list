@@ -13,10 +13,14 @@ import {
 
 const addButton = document.getElementById("add");
 const user = document.getElementById("user");
-const tab = document.getElementsByClassName("tab");
 const newproject = document.getElementById("newproject");
 const projectTab = document.getElementById("projects");
 const content = document.getElementById("content");
+
+const tab1 = document.getElementById("tab1");
+const tab2 = document.getElementById("tab2");
+const tab3 = document.getElementById("tab3");
+const tab4 = document.getElementById("tab4");
 
 function createProjectForm() {
   const input = createTextInput("Really Cool Project");
@@ -100,14 +104,6 @@ function projectFormExist() {
   return form !== null;
 }
 
-function addForm() {
-  content.appendChild(createForm());
-}
-
-function addProjectForm() {
-  projectTab.appendChild(createProjectForm());
-}
-
 function submitForm(title, description, date, project, priority) {
   // send data to index.js through formData
   Object.assign(formData, { title, description, date, project, priority });
@@ -117,13 +113,18 @@ function submitForm(title, description, date, project, priority) {
 
 addButton.onclick = () => {
   if (todoFormExist()) return;
-  addForm();
+  content.appendChild(createForm());
 };
 
 newproject.onclick = () => {
   if (projectFormExist()) return;
-  addProjectForm();
+  projectTab.appendChild(createProjectForm());
 };
+
+tab1.onclick = () => render("project", "inbox");
+tab2.onclick = () => render("date", "today");
+tab3.onclick = () => render("date", "week");
+tab4.onclick = () => render("all");
 
 renderTab();
 export const formData = {};
@@ -151,11 +152,11 @@ submitForm("bro", "", "2022-04-15", "inbox", "p1");
 //key listener for testing
 document.addEventListener("keydown", (e) => {
   switch (e.key) {
-    case '1':
-      console.log('1 pressed, do ...');
+    case "1":
+      console.log("1 pressed, do ...");
       break;
-    case '2':
-      console.log('2 pressed, do ...');
+    case "2":
+      console.log("2 pressed, do ...");
       break;
   }
 });
