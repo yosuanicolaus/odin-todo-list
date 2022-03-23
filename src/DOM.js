@@ -17,8 +17,6 @@ const newproject = document.getElementById("newproject");
 const projectTab = document.getElementById("projects");
 const content = document.getElementById("content");
 
-let lastProject = "inbox";
-
 function createProjectForm() {
   const input = createTextInput("Really Cool Project");
   const submit = createButton("add project");
@@ -27,9 +25,7 @@ function createProjectForm() {
     renderTab();
   };
   const cancel = createButton("cancel");
-  cancel.onclick = () => {
-    projectTab.removeChild(form);
-  };
+  cancel.onclick = () => projectTab.removeChild(form);
 
   const buttons = createGroup([submit, cancel]);
   const form = createGroup([input, buttons], "projectform", "form");
@@ -118,22 +114,50 @@ function submitForm(title, description, date, project, priority) {
   render();
 }
 
-function render(dataProject = lastProject) {
+function render(renderBy = "all", key) {
   content.innerHTML = "";
-  const project = dataProject;
-  Projects[project].getTodo().forEach((todo) => {
-    const title = todo.getInfo().title;
-    const description = todo.getInfo().description;
-    const dueDate = todo.getInfo().dueDate;
-    const priority = todo.getInfo().priority;
+  switch (renderBy) {
+    case "project":
+      renderByProject(key);
+      break;
+    case "date":
+      renderByDate(key);
+      break;
+    case "all":
+      renderAll();
+  }
+}
 
-    content.appendChild(
-      createTodo(title, description, dueDate, project, priority)
-    );
+function renderItem(todo, project) {
+  const title = todo.getInfo().title;
+  const description = todo.getInfo().description;
+  const dueDate = todo.getInfo().dueDate;
+  const priority = todo.getInfo().priority;
+
+  content.appendChild(
+    createTodo(title, description, dueDate, project, priority)
+  );
+}
+
+function renderByProject(project = "inbox") {
+  Projects[project].getTodo().forEach((todo) => {
+    renderItem(todo, project);
   });
 }
 
-function renderByDate() {}
+function renderAll() {
+  for (const key in Projects) {
+    renderByProject(key);
+  }
+}
+
+function renderByDate(date, dateRange = 1) {
+  Library.forEach((todo) => {
+    if (todo.getInfo().dueDate == date) {
+      renderItem(todo);
+    }
+  });
+}
 
 addButton.onclick = () => {
   if (todoFormExist()) return;
@@ -153,12 +177,22 @@ renderTab();
 submitForm(
   "Walk my dog at 5pm",
   `Dogs are truly man's best friend. We live in a socitey...`,
-  "2022-03-18",
+  "2022-03-23",
   "inbox",
   "p1"
 );
 
 //key listener for testing
-document.addEventListener("keydown", () => {
-  console.log(Library);
+document.addEventListener("keydown", (e) => {
+  if (e.key == "1") {
+    // console.log("1");
+    Library.forEach((todo) => {
+      let x = todo.getInfo().dueDate;
+      let y = new Date()
+      y = y.toISOString().split('T')[0]
+      console.log(x);
+      console.log(y);
+      console.log(x === y)
+    });
+  }
 });
