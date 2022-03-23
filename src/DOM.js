@@ -1,5 +1,6 @@
 import { addTodo, addProject } from ".";
 import { Library, Projects } from "./todo";
+import { render } from "./render";
 import {
   createItem,
   createButton,
@@ -114,81 +115,6 @@ function submitForm(title, description, date, project, priority) {
   render();
 }
 
-function render(renderBy = "all", key) {
-  content.innerHTML = "";
-  switch (renderBy) {
-    case "project":
-      renderByProject(key);
-      break;
-    case "date":
-      renderByDate(key);
-      break;
-    case "all":
-      renderAll();
-  }
-}
-
-function renderItem(todo, project) {
-  const title = todo.getInfo().title;
-  const description = todo.getInfo().description;
-  const dueDate = todo.getInfo().dueDate;
-  const priority = todo.getInfo().priority;
-
-  content.appendChild(
-    createTodo(title, description, dueDate, project, priority)
-  );
-}
-
-function renderByProject(project = "inbox") {
-  Projects[project].getTodo().forEach((todo) => {
-    renderItem(todo, project);
-  });
-}
-
-function renderAll() {
-  for (const key in Projects) {
-    renderByProject(key);
-  }
-}
-
-function renderByDate(type = "today") {
-  switch (type) {
-    case "today":
-      renderToday();
-      break;
-    case "week":
-      renderWeek();
-  }
-}
-
-function renderDay(date) {
-  Library.forEach((todo) => {
-    if (todo.getInfo().dueDate == date) {
-      renderItem(todo);
-    }
-  });
-}
-
-function renderWeek() {
-  const Dates = Array(7);
-  for (let i = 0; i < Dates.length; i++) {
-    Dates[i] = new Date();
-    Dates[i].setDate(Dates[i].getDate() + i);
-    Dates[i] = Dates[i].toISOString().split("T")[0];
-  }
-
-  Dates.forEach((date) => {
-    renderDay(date);
-  });
-}
-
-function renderToday() {
-  let date = new Date();
-  date = date.toISOString().split("T")[0];
-
-  renderDay(date);
-}
-
 addButton.onclick = () => {
   if (todoFormExist()) return;
   addForm();
@@ -199,9 +125,9 @@ newproject.onclick = () => {
   addProjectForm();
 };
 
-export const formData = {};
-
 renderTab();
+export const formData = {};
+export { createTodo, content };
 
 /* --------------------------------------------------------------------------------------------------- */
 
@@ -224,19 +150,12 @@ submitForm("bro", "", "2022-04-15", "inbox", "p1");
 
 //key listener for testing
 document.addEventListener("keydown", (e) => {
-  if (e.key == "1") { // check date
-    // console.log("1");
-    Library.forEach((todo) => {
-      let x = todo.getInfo().dueDate;
-      let y = new Date();
-      y = y.toISOString().split("T")[0];
-      console.log(x);
-      console.log(y);
-      console.log(x === y);
-    });
-  } else if (e.key == "2") { // render today
-    render("date");
-  } else if (e.key == "3") { // render week
-    render("date", "week");
+  switch (e.key) {
+    case '1':
+      console.log('1 pressed, do ...');
+      break;
+    case '2':
+      console.log('2 pressed, do ...');
+      break;
   }
 });
