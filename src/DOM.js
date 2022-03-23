@@ -151,12 +151,42 @@ function renderAll() {
   }
 }
 
-function renderByDate(date, dateRange = 1) {
+function renderByDate(type = "today") {
+  switch (type) {
+    case "today":
+      renderToday();
+      break;
+    case "week":
+      renderWeek();
+  }
+}
+
+function renderDay(date) {
   Library.forEach((todo) => {
     if (todo.getInfo().dueDate == date) {
       renderItem(todo);
     }
   });
+}
+
+function renderWeek() {
+  const Dates = Array(7);
+  for (let i = 0; i < Dates.length; i++) {
+    Dates[i] = new Date();
+    Dates[i].setDate(Dates[i].getDate() + i);
+    Dates[i] = Dates[i].toISOString().split("T")[0];
+  }
+
+  Dates.forEach((date) => {
+    renderDay(date);
+  });
+}
+
+function renderToday() {
+  let date = new Date();
+  date = date.toISOString().split("T")[0];
+
+  renderDay(date);
 }
 
 addButton.onclick = () => {
@@ -173,6 +203,8 @@ export const formData = {};
 
 renderTab();
 
+/* --------------------------------------------------------------------------------------------------- */
+
 //sample todo
 submitForm(
   "Walk my dog at 5pm",
@@ -181,18 +213,30 @@ submitForm(
   "inbox",
   "p1"
 );
+submitForm("nice", "", "2022-03-23", "inbox", "p1");
+submitForm("cool", "", "2022-03-24", "inbox", "p1");
+submitForm("yeah", "", "2022-03-24", "inbox", "p1");
+submitForm("bro", "", "2022-03-25", "inbox", "p1");
+submitForm("bro", "", "2022-03-30", "inbox", "p1");
+submitForm("bro", "", "2022-04-25", "inbox", "p1");
+submitForm("bro", "", "2022-04-12", "inbox", "p1");
+submitForm("bro", "", "2022-04-15", "inbox", "p1");
 
 //key listener for testing
 document.addEventListener("keydown", (e) => {
-  if (e.key == "1") {
+  if (e.key == "1") { // check date
     // console.log("1");
     Library.forEach((todo) => {
       let x = todo.getInfo().dueDate;
-      let y = new Date()
-      y = y.toISOString().split('T')[0]
+      let y = new Date();
+      y = y.toISOString().split("T")[0];
       console.log(x);
       console.log(y);
-      console.log(x === y)
+      console.log(x === y);
     });
+  } else if (e.key == "2") { // render today
+    render("date");
+  } else if (e.key == "3") { // render week
+    render("date", "week");
   }
 });
