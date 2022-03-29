@@ -23,11 +23,16 @@ function Factory() {
     projects.push(todo);
     Library.push(todo);
   };
+  const removeTd = (projectIndex, libraryIndex) => {
+    projects.splice(projectIndex, 1)
+    Library.splice(libraryIndex, 1)
+  };
   const getTodo = (index) => {
     return index === undefined ? projects : projects[index];
   };
   return {
     add,
+    removeTd,
     getTodo,
   };
 }

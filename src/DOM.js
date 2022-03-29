@@ -1,4 +1,4 @@
-import { addTodo, addProject } from ".";
+import { addTodo, addProject, removeTodo } from ".";
 import { Library, Projects } from "./todo";
 import { render } from "./render";
 import {
@@ -83,6 +83,9 @@ function createTodo(title, description, dueDate, project, priority) {
   const taskProject = createText(project);
   const taskPriority = createText(priority);
 
+  check.onclick = () =>
+    deleteTodo(title, description, dueDate, priority, project);
+
   const todoFlex = createGroup(
     [taskDate, taskProject, taskPriority],
     "todoFlex"
@@ -92,6 +95,11 @@ function createTodo(title, description, dueDate, project, priority) {
     "todo"
   );
   return Todo;
+}
+
+function deleteTodo(title, desc, dueDate, priority, projectName) {
+  removeTodo(title, desc, dueDate, priority, projectName);
+  render("all");
 }
 
 function todoFormExist() {
